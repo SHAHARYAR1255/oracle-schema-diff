@@ -1,6 +1,6 @@
 {
   "name": "oracle-schema-diff",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CLI tool to compare two Oracle DB schemas and generate SQL migration scripts + visual HTML reports",
   "author": "Harmur Efta",
   "license": "MIT",
