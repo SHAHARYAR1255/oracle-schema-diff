@@ -1,0 +1,49 @@
+{
+  "name": "oracle-schema-diff",
+  "version": "1.0.0",
+  "description": "CLI tool to compare two Oracle DB schemas and generate SQL migration scripts + visual HTML reports",
+  "author": "Harmur Efta",
+  "license": "MIT",
+  "bin": {
+    "oracle-schema-diff": "bin/cli.js"
+  },
+  "main": "./src/index.js",
+  "files": [
+    "bin/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node bin/cli.js"
+  },
+  "keywords": [
+    "oracle",
+    "schema",
+    "diff",
+    "migration",
+    "database",
+    "ddl",
+    "oracle-db",
+    "schema-comparison",
+    "devops",
+    "cli"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harmurefta/oracle-schema-diff.git"
+  },
+  "homepage": "https://github.com/harmurefta/oracle-schema-diff#readme",
+  "bugs": {
+    "url": "https://github.com/harmurefta/oracle-schema-diff/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "oracledb": "^6.0"
+  }
+}

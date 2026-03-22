@@ -1,0 +1,14 @@
+# Development and test artifacts
+node_modules/
+output/
+keys/
+*.config.json
+package-lock.json
+yarn-error.log
+.env*
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
