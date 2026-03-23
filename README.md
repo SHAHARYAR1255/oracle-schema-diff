@@ -41,14 +41,14 @@ You'll be prompted step-by-step:
   ─────────────────────────────────────
 
   Source Database (SIT — the one with correct schema):
-    User/Schema : TAMWEEL_SIT
+    User/Schema : APP_SIT
     Password    : ********
-    Connect URL : 10.0.0.1:1521/SIT
+    Connect URL : 10.0.0.1:1521/SITDB
 
   Target Database (PROD — the one to fix):
-    User/Schema : TAMWEEL_PROD
+    User/Schema : APP_PROD
     Password    : ********
-    Connect URL : 10.0.0.2:1521/PROD
+    Connect URL : 10.0.0.2:1521/PRODDB
 ```
 
 ### 2. Config file mode (recommended for teams)
@@ -57,8 +57,8 @@ Create a JSON file (e.g. `sit-to-prod.json`):
 
 ```json
 {
-  "sit":  { "user": "TAMWEEL_SIT",  "password": "...", "url": "10.0.0.1:1521/SIT"  },
-  "prod": { "user": "TAMWEEL_PROD", "password": "...", "url": "10.0.0.2:1521/PROD" },
+  "sit":  { "user": "APP_SIT",  "password": "...", "url": "10.0.0.1:1521/SITDB"  },
+  "prod": { "user": "APP_PROD", "password": "...", "url": "10.0.0.2:1521/PRODDB" },
   "libDir": "/opt/oracle/instantclient",
   "htmlReportPath": "./schema-report.html"
 }
@@ -118,19 +118,19 @@ oracle-schema-diff --config sit-to-prod.json --html-report --open-report
 ```
 ══════════════════════════════════════════════════════════════════════════
   SCHEMA DIFF REPORT
-  Source : TAMWEEL_SIT
-  Target : TAMWEEL_PROD
+  Source : APP_SIT
+  Target : APP_PROD
 ══════════════════════════════════════════════════════════════════════════
 
   ✗ Missing Columns (2)
-     IDB_WEB_USER.CIF_ID
+     ORDERS.DISCOUNT_RATE
        In source, missing in target
-     IDB_ADDRESS.CITY_NAME
+     CUSTOMERS.LOYALTY_TIER
        In source, missing in target
 
   ✗ Missing Indexes (1)
-     IDX_IDB_WEB_USER_CIF_ID
-       On IDB_WEB_USER(CIF_ID)
+     IDX_ORDERS_DISCOUNT_RATE
+       On ORDERS(DISCOUNT_RATE)
 
 ────────────────────────────────────────────────────────────────────────
   SUMMARY
@@ -138,7 +138,7 @@ oracle-schema-diff --config sit-to-prod.json --html-report --open-report
   Critical (need SQL fix) : 3
 ────────────────────────────────────────────────────────────────────────
 
-  → SQL fix file: diff_TAMWEEL_SIT_to_TAMWEEL_PROD_2026-03-16T10-00-00.sql
+  → SQL fix file: diff_APP_SIT_to_APP_PROD_2026-03-16T10-00-00.sql
 ```
 
 ### Generated SQL file
@@ -146,21 +146,21 @@ oracle-schema-diff --config sit-to-prod.json --html-report --open-report
 ```sql
 -- =================================================================
 -- oracle-schema-diff - Auto-generated migration
--- Source : TAMWEEL_SIT
--- Target : TAMWEEL_PROD
+-- Source : APP_SIT
+-- Target : APP_PROD
 -- Generated : 2026-03-16T10:00:00.000Z
 --
 -- WARNING: REVIEW EVERY STATEMENT BEFORE RUNNING AGAINST PRODUCTION
 -- =================================================================
 
--- [MISSING COLUMN] IDB_WEB_USER.CIF_ID
-ALTER TABLE IDB_WEB_USER ADD (CIF_ID NUMBER);
+-- [MISSING COLUMN] ORDERS.DISCOUNT_RATE
+ALTER TABLE APP_PROD.ORDERS ADD (DISCOUNT_RATE NUMBER(5,2));
 
--- [MISSING COLUMN] IDB_ADDRESS.CITY_NAME
-ALTER TABLE IDB_ADDRESS ADD (CITY_NAME VARCHAR2(200));
+-- [MISSING COLUMN] CUSTOMERS.LOYALTY_TIER
+ALTER TABLE APP_PROD.CUSTOMERS ADD (LOYALTY_TIER VARCHAR2(20 BYTE));
 
--- [MISSING INDEX] IDX_IDB_WEB_USER_CIF_ID
-CREATE INDEX IDX_IDB_WEB_USER_CIF_ID ON IDB_WEB_USER(CIF_ID);
+-- [MISSING INDEX] IDX_ORDERS_DISCOUNT_RATE
+CREATE INDEX APP_PROD.IDX_ORDERS_DISCOUNT_RATE ON APP_PROD.ORDERS(DISCOUNT_RATE);
 
 COMMIT;
 ```
